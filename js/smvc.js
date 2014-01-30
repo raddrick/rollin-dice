@@ -9,8 +9,16 @@ rs = {
 };
 
 rs.model = {
-  x:0,
-  y:0,
+  build_attributes: function(el){
+    var box=el.getBoundingClientRect();
+    for (var attr in box){
+      var value=box[attr];
+      this[attr]=value;
+    }
+    if (el.x) this.x = el.x.baseVal.value;
+    if (el.y) this.y = el.y.baseVal.value;
+    return el;
+  },
   extend: function(props,new_obj) {
     var prop, obj;
     if (new_obj) obj = Object.create(this);
