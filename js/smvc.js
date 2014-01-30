@@ -38,14 +38,15 @@ rs.controller = {
       //create a new model
       var m=Object.create(rs.model);
       if (obj.u) m.extend({update:obj.u});
-      this.models.push({id:obj.id, o:m});
+      this.models[obj.id] = m;
 
       // create a coresponding view
       var v=Object.create(rs.view);
       if (obj.v) v.extend({update:obj.v});
-      this.views.push({id:obj.id, o:v.init(obj)});
-    }
+      this.views[obj.id] = v.init(obj);
 
+      m.build_attributes(v.el);
+    }
     return this;
   },
   update:function(models){
@@ -56,36 +57,20 @@ rs.controller = {
         models = [models];
     }
 
-    //work through the models and update their content
-    for (var i=0 ; i<this.models.length ; i++){
-      var m=this.models[i];
+    for (var id in this.models){
+      var m=this.models[id];
 
       // if the model is set it will update it only, otherwise update all
       if (typeof models == 'undefined' || models.indexOf(m.id) >= 0){
-        for (var j=0 ; j<this.views.length ; j++){
-          var v=this.views[j];
-          if (v.id === m.id){
+        var v=this.views[id];
 
-            //apply the new model details to the view
-            if (typeof m.o.update == 'undefined') break;
-            if (typeof v.o.update == 'undefined') break;
-            v.o.update(m.o.update());
-            //return true;
-          }
-        }
+        //apply the new model details to the view
+        if (typeof m.update == 'undefined') break;
+        if (typeof v.update == 'undefined') break;
+        v.update(m.update());
       }
     }
-  },
-  get: function(model){
-    for (var i=0; i<this.models.length; i++){
-      var m=this.models[i];
-      if (model != m.id) continue;
-      return{
-        v:this.views[i],
-        m:this.models[i]
-      }
-    }
-    return 0;
+    return true;
   }
 };
 
