@@ -6,16 +6,17 @@ rs.roller = rs.controller.init([
       return this;
     },
     v: function(m){
-      var v=m.value ? m.value : 6;
-      var nodes=this.el.getElementsByTagName('circle');
+      m.value=m.value ? m.value : 6;
+      var el = this.render(m);
+
+      var nodes=el.getElementsByTagName('circle');
       for (var i = 0; i < nodes.length; i++){
         var n=nodes[i];
         var c=n.getAttribute('class');
-        (c.indexOf(v) >= 0) ? n.removeAttribute('display') : n.setAttribute('display','none');
+        (c.indexOf(m.value) >= 0) ? n.removeAttribute('display') : n.setAttribute('display','none');
       }
       
-      m.text = v;
-      return this.render(m);
+      return el;
     }
   },
   {id:'dice', el:'#dice',
