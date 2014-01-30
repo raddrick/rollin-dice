@@ -35,8 +35,8 @@ rs.model = {
 };
 
 rs.controller = {
-  models:[],
-  views:[],
+  models:{},
+  views:{},
   init:function(o){
 
     // check for array
@@ -61,7 +61,7 @@ rs.controller = {
 
     //upgrade models to an array if a string
     if (typeof models != 'undefined') {
-      if (typeof models.index != 'undefined')
+      if (typeof models.length != 'undefined')
         models = [models];
     }
 
@@ -69,7 +69,7 @@ rs.controller = {
       var m=this.models[id];
 
       // if the model is set it will update it only, otherwise update all
-      if (typeof models == 'undefined' || models.indexOf(m.id) >= 0){
+      if (typeof models == 'undefined' || models.indexOf(id) >= 0){
         var v=this.views[id];
 
         //apply the new model details to the view
@@ -79,6 +79,16 @@ rs.controller = {
       }
     }
     return true;
+  },
+  get: function(model){
+    for (var id in this.models){
+      if (id != model) continue;
+      return {
+        v:this.views[id],
+        m:this.models[id]
+      };
+    }
+    return 0;
   }
 };
 
