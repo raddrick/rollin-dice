@@ -25,8 +25,8 @@ rs.roller = rs.controller.init([
       this.dice=[];
       for (var i=0; i<rs.dice; i++){
         var d=Object.create(this.die);
-        d.y=100;
-        d.x=i*120;
+        d.m.y=100;
+        d.m.x=i*120;
 
         this.dice.push(d);
       }
