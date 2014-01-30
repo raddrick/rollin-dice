@@ -102,10 +102,12 @@ rs.view = {
           css=document.getElementById(get_selector());
           break;
         case 'class':
-          css=document.getElementsByClassName(get_selector());
+          // TODO: make this capable of working on a set of elements
+          css=document.getElementsByClassName(get_selector())[0];
           break;
         default:
-          css=document.getElementsByTagName(o.el);
+          // TODO: make this capable of working on a set of elements
+          css=document.getElementsByTagName(o.el)[0];
           break;
       }
       if (!css) console.log('Warning: no elements found with selector: ' + o.el);
@@ -118,17 +120,22 @@ rs.view = {
 
       if (o.el.indexOf("#")===0) {this.el = selector('id');}
       else if (o.el.indexOf(".")===0) {this.el = selector('class');}
-      else {this.el = get_selector();}
-
+      else {this.el = selector();}
     }
     if (this.el.getAttribute('type') == 'text/template') this.template = this.el.firstChild;
     return this;
   },
   render:function(m){
     var dom = this.el;
-    if (this.template){
-      dom = this.convert_template(m);
-    }
+    if (this.template) dom = this.convert_template(m);
+
+    // TODO: this is new, needs to be tested
+    // for (var attr in m){
+    //   if (typeof m[attr] == 'object'){
+    //     dom.setAttribute(attr,m[attr][1]);
+    //     m[attr]=m[attr][1];
+    //   }
+    // }
 
     //reapply the updated element
     if (typeof dom == 'undefined'){
