@@ -34,19 +34,16 @@ rs.roller = rs.controller.init([
     },
     v: function(m){
       for (var i=0; i<m.dice.length; i++){
-        var el=document.createElementNS(svgns,'g');
-        el.setAttribute('class','die');
-        
         //set the position of the new die
-        var d=m.dice[i];
-        d.v.o.set_transform(el,d);
-        
+        var die=m.dice[i];
+
         //copy the content of the dice to the el
-        var copy=d.v.o.update(d.m.o.update());
-        for (var j=0; j<copy.childNodes.length; j++){
-          el.appendChild(copy.childNodes[j].cloneNode());
-        }
-        this.el.appendChild(el);
+        var copy=die.v.update(die.m.update());
+        // var el=copy;
+        // for (var j=0; j<copy.childNodes.length; j++){
+        //   el=copy.childNodes[j].cloneNode());
+        // }
+        this.el.appendChild(copy);
       }
     }
   }
