@@ -25,9 +25,6 @@ rs.roller = rs.controller.init([
       this.dice=[];
       for (var i=0; i<rs.dice; i++){
         var d=Object.create(this.die);
-        d.m.y=100;
-        d.m.x=i*120;
-
         this.dice.push(d);
       }
       return this;
@@ -35,14 +32,12 @@ rs.roller = rs.controller.init([
     v: function(m){
       for (var i=0; i<m.dice.length; i++){
         //set the position of the new die
-        var die=m.dice[i];
+        var d=m.dice[i];
+        d.m.y=100;
+        d.m.x=i*120;
 
         //copy the content of the dice to the el
-        var copy=die.v.update(die.m.update());
-        // var el=copy;
-        // for (var j=0; j<copy.childNodes.length; j++){
-        //   el=copy.childNodes[j].cloneNode());
-        // }
+        var copy=d.v.update(d.m.update());
         this.el.appendChild(copy);
       }
     }
