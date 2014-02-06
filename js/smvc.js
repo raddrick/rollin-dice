@@ -161,9 +161,10 @@ rs.view = {
     if (this.template){
       if (typeof this.template == 'object') this.template = this.template.data;
       var res = this.update_template(this.template,m);
+      res="<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>"+res+'</svg>';
       var parser = new DOMParser();
-      res=parser.parseFromString(res, "image/svg+xml");
-      return res.firstChild;
+      res=parser.parseFromString(res, "application/xml");
+      return res.firstChild.firstElementChild;
     } else {
       console.log("Warning: no template found for this view");
       return false;
