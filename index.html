@@ -8,7 +8,9 @@
       document.addEventListener(
         'DOMContentLoaded',function(){
           var pairs={};
-          var params=location.search.substring(1).split('&');
+          var params=location.search.substring(1)
+          params=params.replace(/[\\\/]/g,'');
+          params=params.split('&');
           for (var i=0; i<params.length; i++){
             var p=params[i].split('=');
             pairs[p[0]]=p[1];
